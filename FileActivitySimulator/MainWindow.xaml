@@ -1,0 +1,64 @@
+﻿<Window x:Class="FileActivitySimulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileActivitySimulator"
+        mc:Ignorable="d"
+        Title="Berg Studios File Activity Simulator" Height="668.6" Width="510">
+    <Grid Margin="0,0,0,2">
+
+        <Label Content="Activity Parent Folder" HorizontalAlignment="Left" Margin="18,35,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtboxParentActivityFolder" HorizontalAlignment="Left" Height="23" Margin="18,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="290"/>
+
+
+
+
+
+        <Button Name="btnParentActivityFolderBrowse" Content="Button" HorizontalAlignment="Left" Margin="327,66,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Height="23"/>
+
+        <Label Content="Activity Level" HorizontalAlignment="Left" Margin="21,153,0,0" VerticalAlignment="Top"/>
+        <Slider Name="sliderActivityLevel" HorizontalAlignment="Left" Margin="21,179,0,0" VerticalAlignment="Top" Width="351" Height="23" ValueChanged="sliderActivityLevel_ValueChanged"/>
+        <Label Name="lblActivityslider" Content="Minimal" HorizontalAlignment="Left" Margin="402,176,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.558" Width="80"/>
+
+        <Label Content="Activity Config File" HorizontalAlignment="Left" Margin="18,94,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtboxConfigurationFilePath" HorizontalAlignment="Left" Height="23" Margin="18,125,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="290"/>
+        <Button Name="btnConfigFileBrowse"  Content="Browse" HorizontalAlignment="Left" Margin="327,125,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnConfigFileBrowse_Click"/>
+        <Button x:Name="btnConfigFileLoad"  Content="Load" HorizontalAlignment="Left" Margin="407,125,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="btnConfigFileLoad_Click" RenderTransformOrigin="1.533,0.565"/>
+        <TabControl HorizontalAlignment="Left" Height="148" Margin="21,215,0,0" VerticalAlignment="Top" Width="461">
+            <TabItem Header="Activity">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox Name="chkboxRead" Content="Reads" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Name="chkboxWrites" Content="Writes" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Name="chkboxDeletes" Content="Delete" HorizontalAlignment="Left" Margin="158,28,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Name="chkboxCreates" Content="Create" HorizontalAlignment="Left" Margin="158,58,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Name="chkboxRenames" Content="Rename" HorizontalAlignment="Left" Margin="266,28,0,0" VerticalAlignment="Top"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Threats">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox Name="chkboxRansomwareThreat" Content="Ransomware" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <Button Name ="btnStartSimulation" Content="GO" HorizontalAlignment="Left" Margin="21,380,0,0" VerticalAlignment="Top" Width="464" Height="44" Click="btnStartSimulation_Click"/>
+
+        <ScrollViewer Name="Scroller" Margin="18,446,0,10" Background="Black">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding ConsoleOutput, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=.}" Foreground="White" FontFamily="Consolas"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+            </StackPanel>
+        </ScrollViewer>
+        <Label Content="File Activity Simulator" HorizontalAlignment="Left" Margin="18,1,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
+
+
+    </Grid>
+</Window>
