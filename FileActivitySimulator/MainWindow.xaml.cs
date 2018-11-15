@@ -17,10 +17,7 @@ using System.Windows.Shapes;
 using Newtonsoft;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Quartz;
-using Quartz.Impl;
 using System.Timers;
-using System.Threading.Tasks;
 
 
 namespace FileActivitySimulator
@@ -32,12 +29,24 @@ namespace FileActivitySimulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string parentActivityFolderPath;
         public bool simulationActive = false;
         public string configFilePath;
+
+        private SimulationManager SimManager;
+        
+
+
         public List<FileSimObject> fileSimulationObjects = new List<FileSimObject>();
+        public List<FileSimObject> fileSimulationFiles = new List<FileSimObject>();
+        public List<FileSimObject> fileSimulationDirectories = new List<FileSimObject>();
+
         ConsoleContent dc = new ConsoleContent();
         public double simulationActivityDelay = 10000;
         private static System.Timers.Timer SimulationTimer;
+
+        private int fileSimulationFilesCount;
+
 
         public MainWindow()
         {
@@ -51,6 +60,8 @@ namespace FileActivitySimulator
 
         private void SetupTimer()
         {
+
+            SimManager = new SimulationManager();
             // Tell the timer what to do when it elapses
             SimulationTimer = new System.Timers.Timer(simulationActivityDelay);
 
@@ -85,8 +96,10 @@ namespace FileActivitySimulator
                 path = path.Replace("\\select.this.directory", "");
                 path = path.Replace(".this.directory", "");
 
+                parentActivityFolderPath = path;
                 txtboxParentActivityFolder.Text = path;
                 insertToConsole("Selected Parent Folder...");
+                
 
             }
         }
@@ -100,7 +113,22 @@ namespace FileActivitySimulator
             {
                 string json = file.ReadToEnd();
                 fileSimulationObjects = JsonConvert.DeserializeObject<List<FileSimObject>>(json);
-                
+                foreach(FileSimObject fileSimObject in fileSimulationObjects)
+                {
+                    if(fileSimObject.fileType == "Directory")
+                    {
+                        fileSimulationDirectories.Add(fileSimObject);
+                    }
+
+                    if (fileSimObject.fileType == "File")
+                    {
+                        fileSimulationFiles.Add(fileSimObject);
+                    }
+                }
+
+
+                fileSimulationFilesCount = fileSimulationFiles.Count;
+
             }
 
             insertToConsole("Loaded Config File...");
@@ -125,7 +153,11 @@ namespace FileActivitySimulator
                 string directoryPath = (System.IO.Path.GetDirectoryName(path)) + "\\" + (System.IO.Path.GetFileName(path));
                 configFilePath = directoryPath;
                 insertToConsole("Selected Config File...");
+
+
                 
+
+
             }
         }
 
@@ -179,19 +211,49 @@ namespace FileActivitySimulator
         private void initateNewSimulationEvent(object source, ElapsedEventArgs e)
         {
             // Load Up File System Operations
-            FileSystemOperations FSOps = new FileSystemOperations();
-            FSOps.OperationType = FSOps.GetRandomOperationType();
+            FileSystemOperation FSOps = new FileSystemOperation();
+            FSOps.OperationType = FSOps.GetRandomOperationType(SimManager);
             string RandomOperationType = FSOps.OperationType;
 
-            // Get something from our file system collection
-            FileSimObject FSObject = new FileSimObject();
-            var random = new Random();
-            int index = random.Next(fileSimulationObjects.Count);
-            FSObject.name = (fileSimulationObjects[index].name);
-            string RandomFileName = FSObject.name;
+            if(RandomOperationType == "NONE")
+            {
+                insertToConsole("No Event Types Selected");
+            }
+            else
+            {
+                // File Simulation Object 
+                FileSimObject FileSimulationObject = new FileSimObject();
+
+                var random = new Random();
+                int randomFileNumber = random.Next(fileSimulationFilesCount);
+
+                FileSimulationObject = (fileSimulationFiles[randomFileNumber]);
+                FileSimulationObject.FileSystemOperation = FSOps;
+
+                string FilePath = (parentActivityFolderPath + "\\" + FileSimulationObject.path);
+
+                if (FileSimulationObject.FileSystemOperation.OperationType == "Read")
+                {
+
+                    insertToConsole(RandomOperationType + ": " + FileSimulationObject.name);
+                    FileSimulationObject.FileSystemOperation.ReadFile(FilePath);
 
 
-            insertToConsole(RandomOperationType + " Event for file: " + RandomFileName + " !");
+                }
+                else if (FileSimulationObject.FileSystemOperation.OperationType == "Write")
+                {
+                    insertToConsole(RandomOperationType + ": " + FileSimulationObject.name);
+                    FileSimulationObject.FileSystemOperation.UpdateFile(FilePath);
+                }
+
+                else
+                {
+                    //insertToConsole("Not Implemented!");
+                }
+
+                insertToConsole("Event Instance Sim Done");
+            }
+            
         }
 
         private void btnStartSimulation_Click(object sender, RoutedEventArgs e)
@@ -223,6 +285,34 @@ namespace FileActivitySimulator
             
 
 
+
+        }
+
+    
+
+        private void chkboxRead_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkboxRead.IsChecked.Value)
+            {
+                SimManager.DoFileReads = true;
+            }
+            else
+            {
+                SimManager.DoFileReads = false;
+            }
+            
+        }
+
+        private void chkboxWrites_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkboxRead.IsChecked.Value)
+            {
+                SimManager.DoFileWrites = true;
+            }
+            else
+            {
+                SimManager.DoFileWrites = false;
+            }
 
         }
     }

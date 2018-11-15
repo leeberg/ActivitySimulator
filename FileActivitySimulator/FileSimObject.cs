@@ -12,8 +12,10 @@ namespace FileActivitySimulator
         public string path;
         public string fileType;
         public bool isSensitive;
-       
- 
+
+        public FileSystemOperation FileSystemOperation = new FileSystemOperation();
+
+
 
     }
 }
