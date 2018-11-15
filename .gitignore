@@ -31,6 +31,19 @@ bld/
 *.Docx
 *.pdf
 
+
+FileShareDemo/
+FileShareDemo/HumanResources
+FileShareDemo/HumanResources/*
+FileShareDemo/Engineering
+FileShareDemo/Engineering/*.*
+FileShareDemo/Technology/*.*
+FileShareDemo/Technology/Documents/*
+FileShareDemo\Technology\Documents\*
+
+*.docx
+
+
 OpenShare/**/
 OpenShare/*/*.*
 OpenShare\**\**
