@@ -105,6 +105,8 @@ namespace FileActivitySimulator
         }
         private void btnConfigFileLoad_Click(object sender, RoutedEventArgs e)
         {
+            insertToConsole("Starting to Load Configuration File!");
+
             // Get Current Config file
             string pathtoConfig = configFilePath;
  
@@ -131,7 +133,7 @@ namespace FileActivitySimulator
 
             }
 
-            insertToConsole("Loaded Config File...");
+            insertToConsole("Configuration File Loaded!");
 
         }
 
@@ -251,7 +253,7 @@ namespace FileActivitySimulator
                     //insertToConsole("Not Implemented!");
                 }
 
-                insertToConsole("Event Instance Sim Done");
+                //insertToConsole("Event Instance Sim Done");
             }
             
         }
@@ -313,6 +315,11 @@ namespace FileActivitySimulator
             {
                 SimManager.DoFileWrites = false;
             }
+
+        }
+
+        private void AddUser_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
