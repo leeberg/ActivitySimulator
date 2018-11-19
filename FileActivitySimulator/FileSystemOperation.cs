@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SimpleImpersonation;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +14,7 @@ namespace FileActivitySimulator
         
         public List<string> FileSystemOperationTypes = new List<string>{"Read","Write","Delete","Rename","Create"};
         public string OperationType;
-       
+        public NetworkCredential OperationCredential;
 
 
         public string GetRandomOperationType(SimulationManager simManager)
@@ -61,24 +63,67 @@ namespace FileActivitySimulator
 
         public void UpdateFile(string path)
         {
-            using (StreamWriter streamWriter = new StreamWriter(path, false))
+           
+
+            var credentials = new UserCredentials(OperationCredential.Domain, OperationCredential.UserName, OperationCredential.Password);
+
+
+            var result = Impersonation.RunAsUser(credentials, LogonType.Interactive, () =>
             {
-                streamWriter.WriteLine(DateTime.Now.ToString());
-            }
+                // do whatever you want as this user.
+                using (StreamWriter streamWriter = new StreamWriter(path, false))
+                {
+                    streamWriter.WriteLine(DateTime.Now.ToString());
+                }
+
+                return "OK";
+
+            });
+
+
         }
 
         public void RenameFile(string path)
         {
-            using (StreamWriter streamWriter = new StreamWriter(path, false))
+            
+
+            var credentials = new UserCredentials(OperationCredential.Domain, OperationCredential.UserName, OperationCredential.Password);
+
+
+            var result = Impersonation.RunAsUser(credentials, LogonType.Interactive, () =>
             {
-                streamWriter.WriteLine(DateTime.Now.ToString());
-            }
+                // do whatever you want as this user.
+                using (StreamWriter streamWriter = new StreamWriter(path, false))
+                {
+                    streamWriter.WriteLine(DateTime.Now.ToString());
+                }
+                               
+                return "OK";
+
+            });
+
+
+           
+            
         }
 
 
         public void ReadFile(string path)
         {
-            System.IO.File.OpenRead(path);
+            
+
+            var credentials = new UserCredentials(OperationCredential.Domain, OperationCredential.UserName, OperationCredential.Password);
+
+
+            var result = Impersonation.RunAsUser(credentials, LogonType.Interactive, () =>
+            {
+                // do whatever you want as this user.
+                System.IO.File.OpenRead(path);
+
+                return "OK";
+
+            });
+
         }
 
     }

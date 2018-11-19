@@ -36,15 +36,15 @@
 
             <TabItem Header="User Settings">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid HorizontalAlignment="Left" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="0,0,0,35" Width="502" >
+                    <DataGrid x:Name="dgUsers" HorizontalAlignment="Left" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="0,0,0,35" Width="636">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="UserName"  Binding="{Binding UserName}"/>
-                            <DataGridTextColumn Header="Domain" Binding="{Binding Domain}" />
+                            <DataGridTextColumn Header="UserName" Binding="{Binding userName}" IsReadOnly="True" Width="200" />
+                            <DataGridTextColumn Header="Domain" Binding="{Binding userDomain}" IsReadOnly="True" Width="200"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Name="AddUser" Content="Add" HorizontalAlignment="Left" Margin="0,133,0,0" VerticalAlignment="Top" Width="75" Click="AddUser_Click"/>
-                    <Button Name="btnModifyUser" Content="Edit" HorizontalAlignment="Left" Margin="80,133,0,0" VerticalAlignment="Top" Width="75"/>
-                    <Button Name="btnDeleteUser" Content="Delete" HorizontalAlignment="Left" Margin="160,133,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button Name="btnModifyUser" Content="Edit" HorizontalAlignment="Left" Margin="80,133,0,0" VerticalAlignment="Top" Width="75" Click="btnModifyUser_Click"/>
+                    <Button Name="btnDeleteUser" Content="Delete" HorizontalAlignment="Left" Margin="160,133,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteUser_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -105,3 +105,5 @@
 
     </Grid>
 </Window>
+
+

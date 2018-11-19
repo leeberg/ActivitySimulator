@@ -18,7 +18,10 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Timers;
-
+using System.Windows.Controls.Primitives;
+using System.Data;
+using System.Windows.Forms;
+using System.Net;
 
 namespace FileActivitySimulator
 {
@@ -35,13 +38,20 @@ namespace FileActivitySimulator
 
         private SimulationManager SimManager;
         
-
-
+       
+        //Lists
         public List<FileSimObject> fileSimulationObjects = new List<FileSimObject>();
         public List<FileSimObject> fileSimulationFiles = new List<FileSimObject>();
         public List<FileSimObject> fileSimulationDirectories = new List<FileSimObject>();
 
+        //Cred
+        public List<NetworkCredential> NetworkCredentialList = new List<NetworkCredential>();
+        private CredentialManager CredManager;
+
+        //Console Stuff
         ConsoleContent dc = new ConsoleContent();
+
+        // Sim Timers
         public double simulationActivityDelay = 10000;
         private static System.Timers.Timer SimulationTimer;
 
@@ -53,8 +63,16 @@ namespace FileActivitySimulator
             InitializeComponent();
             DataContext = dc;
             SetupTimer();
+            SetupDataGrids();
 
             
+
+        }
+
+        private void SetupDataGrids()
+        {
+         
+
 
         }
 
@@ -217,7 +235,13 @@ namespace FileActivitySimulator
             FSOps.OperationType = FSOps.GetRandomOperationType(SimManager);
             string RandomOperationType = FSOps.OperationType;
 
-            if(RandomOperationType == "NONE")
+            Random rnd = new Random();
+            int r = rnd.Next(NetworkCredentialList.Count);
+
+            FSOps.OperationCredential = NetworkCredentialList[r];
+
+
+            if (RandomOperationType == "NONE")
             {
                 insertToConsole("No Event Types Selected");
             }
@@ -321,6 +345,94 @@ namespace FileActivitySimulator
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
 
+            //pass to child like this: ChildWindow child= new ChildWindow("abc","somevalue");
+            UserWindow subWindow = new UserWindow("","","","new");
+            subWindow.Owner = this;
+
+            subWindow.passUserDetailsToParent += returnedCredManager => AddToDgUser(returnedCredManager);
+            subWindow.Show();
+
+                       
+
+        }
+
+ 
+        public void AddToDgUser(CredentialManager UserCreds)
+        {
+            // Add To Datagrid
+            var data = new CredentialManager { userName = UserCreds.userName, userDomain = UserCreds.userDomain };
+            dgUsers.Items.Add(data);
+            
+            // Add to Network Cred list
+            NetworkCredentialList.Add(UserCreds.SetupUserCreds(UserCreds.userName,UserCreds.userPassword, UserCreds.userDomain));
+
+            insertToConsole("Added User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
+        }
+
+        public void EditDgUser(CredentialManager UserCreds)
+        {
+
+            var currentItem = dgUsers.SelectedItem as CredentialManager;
+
+            //Update Datagrid
+            currentItem.userName = UserCreds.userName;
+            currentItem.userDomain = UserCreds.userDomain;
+            dgUsers.SelectedItem = currentItem;
+            this.dgUsers.Items.Refresh();
+
+            // Update NetworkCred List
+            var credSearch = NetworkCredentialList.FirstOrDefault(x => x.UserName == currentItem.userName);
+            if (credSearch != null)
+            {
+                credSearch.UserName = UserCreds.userName;
+                credSearch.Domain = UserCreds.userDomain;
+                credSearch.Password = UserCreds.userPassword;
+            }
+            
+            // Console
+            insertToConsole("Modified User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
+
+        }
+
+        private void btnDeleteUser_Click(object sender, RoutedEventArgs e)
+        {
+            // Deleted from Grid
+            var selectedItem = dgUsers.SelectedItem;
+            if (selectedItem != null)
+            {
+                var currentItem = dgUsers.SelectedItem as CredentialManager;
+
+                // Remove Item From NetworkCred List
+                var credSearch = NetworkCredentialList.FirstOrDefault(x => x.UserName == currentItem.userName);
+                if (credSearch != null)
+                {
+                    NetworkCredentialList.Remove(credSearch);
+                }
+
+                // Remove from Data Grid
+                dgUsers.Items.Remove(selectedItem);
+                this.dgUsers.Items.Refresh();
+                insertToConsole("Deleted User");
+            }
+
+        }
+
+        private void btnModifyUser_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = dgUsers.SelectedItem;
+            if (selectedItem != null)
+            {
+                var currentItem = dgUsers.SelectedItem as CredentialManager;
+            
+
+                UserWindow subWindow = new UserWindow(currentItem.userName, currentItem.userDomain, "", "edit");
+                subWindow.Owner = this;
+
+                subWindow.passUserDetailsToParent += returnedCredManager => EditDgUser(returnedCredManager);
+                subWindow.Show();
+            }
+
+           
         }
     }
 

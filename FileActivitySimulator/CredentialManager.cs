@@ -9,17 +9,22 @@ namespace FileActivitySimulator
 {
     public class CredentialManager
     {
-        public NetworkCredential UserCredential;
-        public string userName;
-        public string userDomain;
+        public NetworkCredential UserCredential { get; set; }
+        public string userName { get; set; }
+        public string userDomain { get; set; }
+        public string userPassword { get; set; }
 
-        public void SetupUserCreds(string username, string password, string domain)
+
+
+        public NetworkCredential SetupUserCreds(string username, string password, string domain)
         {
-            userName = username;
-            userDomain = domain;
+            // pass strings into a Network Cred Object
 
             NetworkCredential newcred = new NetworkCredential(username, password, domain);
-            UserCredential = newcred;
+            //UserCredential = newcred;
+            return newcred;
+
+            
 
         }
         
