@@ -55,9 +55,9 @@
                             <DataGridTextColumn Header="Domain" Binding="{Binding userDomain}" IsReadOnly="True" Width="200"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Name="AddDomain" Content="Add" HorizontalAlignment="Left" Margin="0,133,0,0" VerticalAlignment="Top" Width="75" Click="AddUser_Click"/>
-                    <Button Name="btnModifyDomain" Content="Edit" HorizontalAlignment="Left" Margin="80,133,0,0" VerticalAlignment="Top" Width="75" Click="btnModifyUser_Click"/>
-                    <Button Name="btnDeleteDomain" Content="Delete" HorizontalAlignment="Left" Margin="160,133,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteUser_Click"/>
+                    <Button Name="AddDomain" Content="Add" HorizontalAlignment="Left" Margin="0,133,0,0" VerticalAlignment="Top" Width="75" Click="AddDomain_Click"  />
+                    <Button Name="btnModifyDomain" Content="Edit" HorizontalAlignment="Left" Margin="80,133,0,0" VerticalAlignment="Top" Width="75" Click="btnModifyDomain_Click"  />
+                    <Button Name="btnDeleteDomain" Content="Delete" HorizontalAlignment="Left" Margin="160,133,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteDomain_Click" />
                 </Grid>
             </TabItem>
 

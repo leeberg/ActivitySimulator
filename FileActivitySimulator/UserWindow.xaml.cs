@@ -62,7 +62,8 @@ namespace FileActivitySimulator
 
         
             formUserCredential.userName = strusername;
-            formUserCredential.userDomain = strdomain;            
+            formUserCredential.userDomain = strdomain;
+            formUserCredential.userPassword = strpassword;
 
             this.Close();
 

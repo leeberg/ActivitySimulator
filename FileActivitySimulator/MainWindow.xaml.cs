@@ -313,7 +313,12 @@ namespace FileActivitySimulator
 
 
         }
+        
+        private class domainObject
+        {
+            public string userDomain { get; set; }
 
+        }
     
 
         private void chkboxRead_Click(object sender, RoutedEventArgs e)
@@ -368,6 +373,20 @@ namespace FileActivitySimulator
 
             insertToConsole("Added User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
         }
+
+
+        public void AddToDgDomain(string UserDomain)
+        {
+            // Add To Datagrid
+            var data = new domainObject { userDomain = UserDomain };
+           
+            dgDomains.Items.Add(data);
+
+            insertToConsole("Added Domain: " + UserDomain);
+
+        }
+
+
 
         public void EditDgUser(CredentialManager UserCreds)
         {
@@ -434,6 +453,65 @@ namespace FileActivitySimulator
 
            
         }
+
+        private void AddDomain_Click(object sender, RoutedEventArgs e)
+        {
+            //pass to child like this: ChildWindow child= new ChildWindow("abc","somevalue");
+            DomainWindow subWindow = new DomainWindow("", "new");
+            subWindow.Owner = this;
+
+            subWindow.passDomainDetailsToParent += returnedDomain => AddToDgDomain(returnedDomain);
+            subWindow.Show();
+        }
+
+
+        private void btnModifyDomain_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = dgDomains.SelectedItem;
+            if (selectedItem != null)
+            {
+                var currentItem = dgDomains.SelectedItem as domainObject;
+
+                DomainWindow subWindow = new DomainWindow(currentItem.userDomain, "edit");
+                subWindow.Owner = this;
+
+                subWindow.passDomainDetailsToParent += returneddomain => EditDgDomain(returneddomain);
+                subWindow.Show();
+            }
+        }
+
+       
+        public void EditDgDomain(string domain)
+        {
+
+            var currentItem = dgDomains.SelectedItem as domainObject;
+
+            //Update Datagrid
+            currentItem.userDomain = domain;
+            dgDomains.SelectedItem = currentItem;
+            this.dgDomains.Items.Refresh();
+
+       
+            // Console
+            insertToConsole("Modified Domain: " + domain);
+
+        }
+
+        private void btnDeleteDomain_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = dgDomains.SelectedItem;
+            if (selectedItem != null)
+            {
+                var currentItem = dgDomains.SelectedItem as domainObject;
+
+                // Remove from Data Grid
+                dgDomains.Items.Remove(selectedItem);
+                this.dgDomains.Items.Refresh();
+                insertToConsole("Deleted Domain");
+            }
+
+        }
+
     }
 
 
