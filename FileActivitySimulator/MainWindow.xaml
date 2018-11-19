@@ -9,7 +9,7 @@
     <Grid Margin="0,0,0,2">
 
         <TabControl HorizontalAlignment="Left" Height="191" Margin="10,10,0,0" VerticalAlignment="Top" Width="642">
-            <TabItem Header="File Activity" RenderTransformOrigin="0.5,0.5">
+            <TabItem Header="File Config" RenderTransformOrigin="0.5,0.5">
                 <TabItem.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -47,6 +47,20 @@
                     <Button Name="btnDeleteUser" Content="Delete" HorizontalAlignment="Left" Margin="160,133,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteUser_Click"/>
                 </Grid>
             </TabItem>
+
+            <TabItem Header="Domain Settings">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dgDomains" HorizontalAlignment="Left" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="0,0,0,35" Width="636">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Domain" Binding="{Binding userDomain}" IsReadOnly="True" Width="200"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Name="AddDomain" Content="Add" HorizontalAlignment="Left" Margin="0,133,0,0" VerticalAlignment="Top" Width="75" Click="AddUser_Click"/>
+                    <Button Name="btnModifyDomain" Content="Edit" HorizontalAlignment="Left" Margin="80,133,0,0" VerticalAlignment="Top" Width="75" Click="btnModifyUser_Click"/>
+                    <Button Name="btnDeleteDomain" Content="Delete" HorizontalAlignment="Left" Margin="160,133,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteUser_Click"/>
+                </Grid>
+            </TabItem>
+
         </TabControl>
 
         <TabControl HorizontalAlignment="Left" Height="115" Margin="10,206,0,0" VerticalAlignment="Top" Width="642">
