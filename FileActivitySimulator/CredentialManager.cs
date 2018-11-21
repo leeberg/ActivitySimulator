@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@ namespace FileActivitySimulator
         public string userName { get; set; }
         public string userDomain { get; set; }
         public string userPassword { get; set; }
+
+        public SecureString userPasswordSecureStirng { get; set; }
 
 
 

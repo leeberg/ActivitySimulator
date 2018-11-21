@@ -7,7 +7,7 @@
     <ProjectGuid>{E1CD91F7-D62B-4686-8FB2-A2A5BCA3F02F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FileActivitySimulator</RootNamespace>
-    <AssemblyName>FileActivitySimulator</AssemblyName>
+    <AssemblyName>ActivitySimulator</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -86,11 +86,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ADSimulationObject.cs" />
     <Compile Include="CredentialManager.cs" />
     <Compile Include="SimulationManager.cs" />
     <Compile Include="DomainWindow.xaml.cs">
       <DependentUpon>DomainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SimulationOperation.cs" />
     <Compile Include="UserWindow.xaml.cs">
       <DependentUpon>UserWindow.xaml</DependentUpon>
     </Compile>
@@ -103,7 +105,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ConsoleContent.cs" />
-    <Compile Include="FileSimObject.cs" />
+    <Compile Include="FileSimulationObject.cs" />
     <Compile Include="FileSystemOperation.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

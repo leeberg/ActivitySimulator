@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileActivitySimulator
 {
-    public class FileSimObject
+    public class FileSimulationObject
     {
         public string name;
         public string path;

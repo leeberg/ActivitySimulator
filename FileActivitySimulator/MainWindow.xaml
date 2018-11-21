@@ -69,8 +69,8 @@
                     <CheckBox Name="chkboxRead" Content="Reads" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top" Click="chkboxRead_Click"/>
                     <CheckBox Name="chkboxWrites" Content="Writes" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top" Click="chkboxWrites_Click"/>
                     <CheckBox Name="chkboxDeletes" Content="Delete" HorizontalAlignment="Left" Margin="158,28,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Name="chkboxCreates" Content="Create" HorizontalAlignment="Left" Margin="158,58,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Name="chkboxRenames" Content="Rename" HorizontalAlignment="Left" Margin="266,28,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Name="chkboxCreates" Content="Create" HorizontalAlignment="Left" Margin="158,58,0,0" VerticalAlignment="Top" Click="chkboxCreates_Click"/>
+                    <CheckBox Name="chkboxRenames" Content="Rename" HorizontalAlignment="Left" Margin="266,28,0,0" VerticalAlignment="Top" Click="chkboxRenames_Click"/>
                 </Grid>
 
             </TabItem>

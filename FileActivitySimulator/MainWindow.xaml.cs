@@ -40,9 +40,9 @@ namespace FileActivitySimulator
         
        
         //Lists
-        public List<FileSimObject> fileSimulationObjects = new List<FileSimObject>();
-        public List<FileSimObject> fileSimulationFiles = new List<FileSimObject>();
-        public List<FileSimObject> fileSimulationDirectories = new List<FileSimObject>();
+        public List<FileSimulationObject> fileSimulationObjects = new List<FileSimulationObject>();
+        public List<FileSimulationObject> fileSimulationFiles = new List<FileSimulationObject>();
+        public List<FileSimulationObject> fileSimulationDirectories = new List<FileSimulationObject>();
 
         //Cred
         public List<NetworkCredential> NetworkCredentialList = new List<NetworkCredential>();
@@ -56,6 +56,9 @@ namespace FileActivitySimulator
         private static System.Timers.Timer SimulationTimer;
 
         private int fileSimulationFilesCount;
+
+
+        private bool configFileLoaded = false; 
 
 
         public MainWindow()
@@ -116,7 +119,7 @@ namespace FileActivitySimulator
 
                 parentActivityFolderPath = path;
                 txtboxParentActivityFolder.Text = path;
-                insertToConsole("Selected Parent Folder...");
+                insertToConsole("Selected Parent Folder: " + path);
                 
 
             }
@@ -124,34 +127,46 @@ namespace FileActivitySimulator
         private void btnConfigFileLoad_Click(object sender, RoutedEventArgs e)
         {
             insertToConsole("Starting to Load Configuration File!");
-
-            // Get Current Config file
-            string pathtoConfig = configFilePath;
- 
-            // read JSON directly from a file
-            using (StreamReader file = File.OpenText(pathtoConfig))
+            
+            try
             {
-                string json = file.ReadToEnd();
-                fileSimulationObjects = JsonConvert.DeserializeObject<List<FileSimObject>>(json);
-                foreach(FileSimObject fileSimObject in fileSimulationObjects)
+
+                // Get Current Config file
+                string pathtoConfig = configFilePath;
+                            
+                // read JSON directly from a file
+                using (StreamReader file = File.OpenText(pathtoConfig))
                 {
-                    if(fileSimObject.fileType == "Directory")
+                    string json = file.ReadToEnd();
+                    fileSimulationObjects = JsonConvert.DeserializeObject<List<FileSimulationObject>>(json);
+                    foreach (FileSimulationObject fileSimObject in fileSimulationObjects)
                     {
-                        fileSimulationDirectories.Add(fileSimObject);
+                        if (fileSimObject.fileType == "Directory")
+                        {
+                            fileSimulationDirectories.Add(fileSimObject);
+                        }
+
+                        if (fileSimObject.fileType == "File")
+                        {
+                            fileSimulationFiles.Add(fileSimObject);
+                        }
                     }
 
-                    if (fileSimObject.fileType == "File")
-                    {
-                        fileSimulationFiles.Add(fileSimObject);
-                    }
+
+                    fileSimulationFilesCount = fileSimulationFiles.Count;
+
                 }
-
-
-                fileSimulationFilesCount = fileSimulationFiles.Count;
+                configFileLoaded = true;
+                insertToConsole("Configuration File Loaded!");
 
             }
+            catch (Exception err)
+            {
+                insertToConsole("Exception reading Configuration file");
+                insertToConsole(err.TargetSite + " " + err.Message);
 
-            insertToConsole("Configuration File Loaded!");
+            }
+                      
 
         }
 
@@ -172,7 +187,7 @@ namespace FileActivitySimulator
                 txtboxConfigurationFilePath.Text = path;
                 string directoryPath = (System.IO.Path.GetDirectoryName(path)) + "\\" + (System.IO.Path.GetFileName(path));
                 configFilePath = directoryPath;
-                insertToConsole("Selected Config File...");
+                insertToConsole("Selected Config File: " + configFilePath);
 
 
                 
@@ -187,21 +202,21 @@ namespace FileActivitySimulator
             if (sliderActivityLevel.Value <= 3)
             {
                 lblActivityslider.Content = "Minimal";
-                simulationActivityDelay = 10000;
+                simulationActivityDelay = 2000;
 
 
             }
             else if (sliderActivityLevel.Value <6)
             {
                 lblActivityslider.Content = "Moderate";
-                simulationActivityDelay = 5000;
+                simulationActivityDelay = 7500;
 
 
             }
             else if (sliderActivityLevel.Value < 9)
             {
                 lblActivityslider.Content = "High";
-                simulationActivityDelay = 1000;
+                simulationActivityDelay = 250;
 
 
             }
@@ -230,16 +245,34 @@ namespace FileActivitySimulator
 
         private void initateNewSimulationEvent(object source, ElapsedEventArgs e)
         {
-            // Load Up File System Operations
-            FileSystemOperation FSOps = new FileSystemOperation();
-            FSOps.OperationType = FSOps.GetRandomOperationType(SimManager);
-            string RandomOperationType = FSOps.OperationType;
 
-            Random rnd = new Random();
-            int r = rnd.Next(NetworkCredentialList.Count);
+       
 
-            FSOps.OperationCredential = NetworkCredentialList[r];
+            
+            // Load Up a File System Operations
+            FileSystemOperation FileSimulationOp = new FileSystemOperation();
 
+            // Check Sim Manager to get Operation Type
+            FileSimulationOp.OperationType = FileSimulationOp.GetRandomOperationType(SimManager);
+            string RandomOperationType = FileSimulationOp.OperationType;
+
+
+            // Setup Credential for Operations
+            int networkCredentialsCount = NetworkCredentialList.Count;
+
+            if (networkCredentialsCount > 0)
+            {
+                Random rnd = new Random();
+                int r = rnd.Next(NetworkCredentialList.Count);
+
+                FileSimulationOp.OperationCredential = NetworkCredentialList[r];
+            }
+            else
+            {
+                FileSimulationOp.OperationCredential = null;
+            }
+
+            //Check Random Op
 
             if (RandomOperationType == "NONE")
             {
@@ -247,14 +280,20 @@ namespace FileActivitySimulator
             }
             else
             {
-                // File Simulation Object 
-                FileSimObject FileSimulationObject = new FileSimObject();
+                // Setup New Instance of File Simulation Object
 
+                // Right now a File Simulation is really just a FILE instance
+                // Files / Objects should be seperated from the OPERATION LOGIC
+                
+                FileSimulationObject FileSimulationObject = new FileSimulationObject();
+
+                // Pick File
                 var random = new Random();
                 int randomFileNumber = random.Next(fileSimulationFilesCount);
-
                 FileSimulationObject = (fileSimulationFiles[randomFileNumber]);
-                FileSimulationObject.FileSystemOperation = FSOps;
+
+                // Setup Operation Type
+                FileSimulationObject.FileSystemOperation = FileSimulationOp;
 
                 string FilePath = (parentActivityFolderPath + "\\" + FileSimulationObject.path);
 
@@ -272,9 +311,21 @@ namespace FileActivitySimulator
                     FileSimulationObject.FileSystemOperation.UpdateFile(FilePath);
                 }
 
+                else if (FileSimulationObject.FileSystemOperation.OperationType == "Rename")
+                {
+                    insertToConsole(RandomOperationType + ": " + FileSimulationObject.name);
+                    FileSimulationObject.FileSystemOperation.RenameFile(FilePath);
+                }
+
+                else if (FileSimulationObject.FileSystemOperation.OperationType == "Create")
+                {
+                    insertToConsole(RandomOperationType + ": " + FileSimulationObject.name);
+                    FileSimulationObject.FileSystemOperation.createFile(FilePath);
+                }
+
                 else
                 {
-                    //insertToConsole("Not Implemented!");
+                    insertToConsole(FileSimulationObject.FileSystemOperation.OperationType + " Not Implemented!");
                 }
 
                 //insertToConsole("Event Instance Sim Done");
@@ -284,15 +335,23 @@ namespace FileActivitySimulator
 
         private void btnStartSimulation_Click(object sender, RoutedEventArgs e)
         {
+
             if (simulationActive == false)
             {
 
-                insertToConsole("Starting Simulation");
-                // And start it        
-                SimulationTimer.Enabled = true;
-                SimulationTimer.Start();
-                simulationActive = true;
-                btnStartSimulation.Content = "STOP";
+                if(configFileLoaded == true)
+                {
+                    insertToConsole("Starting Simulation");
+                    // And start it        
+                    SimulationTimer.Enabled = true;
+                    SimulationTimer.Start();
+                    simulationActive = true;
+                    btnStartSimulation.Content = "STOP";
+                }
+                else
+                {
+                    insertToConsole("Failed to Start - Load Configuration File first!");
+                }
 
             }
 
@@ -347,6 +406,34 @@ namespace FileActivitySimulator
 
         }
 
+        private void chkboxRenames_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkboxRenames.IsChecked.Value)
+            {
+                SimManager.DoFileRenames = true;
+            }
+            else
+            {
+                SimManager.DoFileRenames = false;
+            }
+
+        }
+
+
+        private void chkboxCreates_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkboxCreates.IsChecked.Value)
+            {
+                SimManager.DoFileCreates = true;
+            }
+            else
+            {
+                SimManager.DoFileCreates = false;
+            }
+        }
+
+
+
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
 
@@ -369,7 +456,7 @@ namespace FileActivitySimulator
             dgUsers.Items.Add(data);
             
             // Add to Network Cred list
-            NetworkCredentialList.Add(UserCreds.SetupUserCreds(UserCreds.userName,UserCreds.userPassword, UserCreds.userDomain));
+            NetworkCredentialList.Add(UserCreds.SetupUserCreds(UserCreds.userName, UserCreds.userPassword, UserCreds.userDomain));
 
             insertToConsole("Added User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
         }
@@ -512,6 +599,7 @@ namespace FileActivitySimulator
 
         }
 
+        
     }
 
 

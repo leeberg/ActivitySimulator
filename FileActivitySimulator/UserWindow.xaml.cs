@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SimpleImpersonation;
 
 namespace FileActivitySimulator
 {
@@ -66,6 +67,33 @@ namespace FileActivitySimulator
             formUserCredential.userPassword = strpassword;
 
             this.Close();
+
+        }
+
+        private void userButtonTest_Click(object sender, RoutedEventArgs e)
+        {
+            
+            string domain = txtBoxDomain.Text;
+            string username = txtBoxUserName.Text;
+            string password = txtBoxPassword.Password;
+
+            var credentials = new UserCredentials(domain, username, password);
+
+            try
+            {
+                Impersonation.RunAsUser(credentials, LogonType.Interactive, () =>
+                {
+                    // do whatever you want as this user.
+                });
+
+                MessageBox.Show("TESTED OK!");
+            }
+            catch
+            {
+                MessageBox.Show("TESTING FAIL!");
+            }
+            
+
 
         }
 
