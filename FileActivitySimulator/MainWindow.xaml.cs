@@ -323,6 +323,12 @@ namespace FileActivitySimulator
                     FileSimulationObject.FileSystemOperation.createFile(FilePath);
                 }
 
+                else if (FileSimulationObject.FileSystemOperation.OperationType == "Delete")
+                {
+                    insertToConsole(RandomOperationType + ": " + FileSimulationObject.name);
+                    FileSimulationObject.FileSystemOperation.DeleteFile(FilePath);
+                }
+
                 else
                 {
                     insertToConsole(FileSimulationObject.FileSystemOperation.OperationType + " Not Implemented!");

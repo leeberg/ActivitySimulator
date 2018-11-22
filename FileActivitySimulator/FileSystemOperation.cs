@@ -67,6 +67,54 @@ namespace FileActivitySimulator
 
 
 
+
+        public void DeleteFile(string path)
+        {
+
+            bool fileExists = File.Exists(path);
+
+            if (OperationCredential != null)
+            {
+
+                var credentials = new UserCredentials(OperationCredential.Domain, OperationCredential.UserName, OperationCredential.Password);
+
+                var result = Impersonation.RunAsUser(credentials, LogonType.Interactive, () =>
+                {
+
+                    if (fileExists)
+                    {
+                        // do whatever you want as this user.
+                        System.IO.File.Delete(path);
+
+                      
+                    }
+
+                    return "OK";
+
+
+                });
+            }
+            else
+            {
+
+                if (fileExists)
+                {
+                    // do whatever you want as this user.
+                    System.IO.File.Delete(path);
+                }
+
+
+            }
+
+
+
+        }
+
+
+
+
+
+
         public void UpdateFile(string path)
         {
            
