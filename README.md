@@ -6,9 +6,10 @@ A Simple Utility to Generate real file and Active Directory activity in lab envi
 
 ![](./img/simulatordemo.gif)
 
+
 ## Usage
-1. Configure a JSON Configuration File for the activity simulator - example provided!
-1. Pick a Parent Directory (Sample Directory Included) - Ensure you have no important data in this directory
+1. Configure a JSON Configuration File for the activity simulator - example provided in the "FileShareDemo" folder!
+1. Pick a Parent Directory (Sample Directory Included) - Ensure you have no important data in this directory - example provided in the "FileShareDemo" folder!
 2. Specify a JSON File for Configuration - From Step 1.
 3. Select Activity Types and Threatening Behaviour to Simulate
 4. Specify Domain Users to Impersonate the activity as on the "User Settings" Tab
