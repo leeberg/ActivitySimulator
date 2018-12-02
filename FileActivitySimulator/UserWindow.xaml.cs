@@ -86,11 +86,11 @@ namespace FileActivitySimulator
                     // do whatever you want as this user.
                 });
 
-                MessageBox.Show("TESTED OK!");
+                MessageBox.Show("Authentication OK!");
             }
             catch
             {
-                MessageBox.Show("TESTING FAIL!");
+                MessageBox.Show("Authentication FAIL!");
             }
             
 

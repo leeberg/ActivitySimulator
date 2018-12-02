@@ -11,7 +11,7 @@ namespace FileActivitySimulator
     public class ConsoleContent : INotifyPropertyChanged
     {
         
-        ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "Console Emulation Sample..." };
+        ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "Activity Simulator Started..." };
 
   
         public void WriteToConsole(string text)

@@ -100,7 +100,15 @@ namespace FileActivitySimulator
                 if (fileExists)
                 {
                     // do whatever you want as this user.
-                    System.IO.File.Delete(path);
+                        try
+                        {
+                            System.IO.File.Delete(path);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    
                 }
 
 
@@ -261,7 +269,17 @@ namespace FileActivitySimulator
             else
             {
                 // do whatever you want as this user.
-                System.IO.File.OpenRead(path);
+
+                try
+                {
+                    System.IO.File.OpenRead(path);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                
 
                 
             }
@@ -307,10 +325,19 @@ namespace FileActivitySimulator
             }
             else
             {
-
-                if(fileExists)
                 // do whatever you want as this user.
-                System.IO.File.Create(path);
+                if (fileExists)
+                {
+                    try
+                    {
+                        System.IO.File.Create(path);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                
 
 
             }

@@ -299,11 +299,8 @@ namespace FileActivitySimulator
 
                 if (FileSimulationObject.FileSystemOperation.OperationType == "Read")
                 {
-
                     insertToConsole(RandomOperationType + ": " + FileSimulationObject.name);
                     FileSimulationObject.FileSystemOperation.ReadFile(FilePath);
-
-
                 }
                 else if (FileSimulationObject.FileSystemOperation.OperationType == "Write")
                 {
@@ -385,60 +382,7 @@ namespace FileActivitySimulator
 
         }
     
-
-        private void chkboxRead_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkboxRead.IsChecked.Value)
-            {
-                SimManager.DoFileReads = true;
-            }
-            else
-            {
-                SimManager.DoFileReads = false;
-            }
-            
-        }
-
-        private void chkboxWrites_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkboxRead.IsChecked.Value)
-            {
-                SimManager.DoFileWrites = true;
-            }
-            else
-            {
-                SimManager.DoFileWrites = false;
-            }
-
-        }
-
-        private void chkboxRenames_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkboxRenames.IsChecked.Value)
-            {
-                SimManager.DoFileRenames = true;
-            }
-            else
-            {
-                SimManager.DoFileRenames = false;
-            }
-
-        }
-
-
-        private void chkboxCreates_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkboxCreates.IsChecked.Value)
-            {
-                SimManager.DoFileCreates = true;
-            }
-            else
-            {
-                SimManager.DoFileCreates = false;
-            }
-        }
-
-
+        
 
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
@@ -457,14 +401,27 @@ namespace FileActivitySimulator
  
         public void AddToDgUser(CredentialManager UserCreds)
         {
-            // Add To Datagrid
-            var data = new CredentialManager { userName = UserCreds.userName, userDomain = UserCreds.userDomain };
-            dgUsers.Items.Add(data);
-            
-            // Add to Network Cred list
-            NetworkCredentialList.Add(UserCreds.SetupUserCreds(UserCreds.userName, UserCreds.userPassword, UserCreds.userDomain));
+            // Validate before Add...
 
-            insertToConsole("Added User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
+            //   if(DataChangedEventManager.)
+
+            if (UserCreds.userName != null && UserCreds.userDomain != null && UserCreds.userPassword != null && UserCreds.userName != "" && UserCreds.userDomain != "" && UserCreds.userPassword != "")
+            {
+                // Add To Datagrid
+                var userData = new CredentialManager { userName = UserCreds.userName, userDomain = UserCreds.userDomain };
+                dgUsers.Items.Add(userData);
+
+                // Add to Network Cred list
+                NetworkCredentialList.Add(UserCreds.SetupUserCreds(UserCreds.userName, UserCreds.userPassword, UserCreds.userDomain));
+
+                insertToConsole("Added User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
+            }
+            else
+            {
+                insertToConsole("Could NOT ADD User... was missing properties");
+            }
+
+            
         }
 
 
@@ -484,25 +441,33 @@ namespace FileActivitySimulator
         public void EditDgUser(CredentialManager UserCreds)
         {
 
-            var currentItem = dgUsers.SelectedItem as CredentialManager;
-
-            //Update Datagrid
-            currentItem.userName = UserCreds.userName;
-            currentItem.userDomain = UserCreds.userDomain;
-            dgUsers.SelectedItem = currentItem;
-            this.dgUsers.Items.Refresh();
-
-            // Update NetworkCred List
-            var credSearch = NetworkCredentialList.FirstOrDefault(x => x.UserName == currentItem.userName);
-            if (credSearch != null)
+            if (UserCreds.userName != null && UserCreds.userDomain != null && UserCreds.userPassword != null && UserCreds.userName != "" && UserCreds.userDomain != "" && UserCreds.userPassword != "")
             {
-                credSearch.UserName = UserCreds.userName;
-                credSearch.Domain = UserCreds.userDomain;
-                credSearch.Password = UserCreds.userPassword;
+                var currentItem = dgUsers.SelectedItem as CredentialManager;
+
+                //Update Datagrid
+                currentItem.userName = UserCreds.userName;
+                currentItem.userDomain = UserCreds.userDomain;
+                dgUsers.SelectedItem = currentItem;
+                this.dgUsers.Items.Refresh();
+
+                // Update NetworkCred List
+                var credSearch = NetworkCredentialList.FirstOrDefault(x => x.UserName == currentItem.userName);
+                if (credSearch != null)
+                {
+                    credSearch.UserName = UserCreds.userName;
+                    credSearch.Domain = UserCreds.userDomain;
+                    credSearch.Password = UserCreds.userPassword;
+                }
+
+                // Console
+                insertToConsole("Modified User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
+            }
+            else
+            {
+                insertToConsole("Could NOT EDIT User... was missing properties");
             }
             
-            // Console
-            insertToConsole("Modified User: " + UserCreds.userDomain + "\\" + UserCreds.userName);
 
         }
 
@@ -605,7 +570,103 @@ namespace FileActivitySimulator
 
         }
 
-        
+  
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            //check for config files next to EXE - if I find just use those and report
+
+        }
+
+      
+
+
+        private void chkBoxEval(object sender, RoutedEventArgs e)
+        {
+            ///// AD AUTH
+            if (chkboxADAuth.IsChecked.Value)
+            {
+                SimManager.DoADAuth = true;
+            }
+            else
+            {
+                SimManager.DoADAuth = true;
+            }
+
+            ///// AD UPDATES
+            if (chkboxADUpdates.IsChecked.Value)
+            {
+                SimManager.DoADUpdate = true;
+            }
+            else
+            {
+                SimManager.DoADUpdate = true;
+            }
+
+            
+            // FILE READ
+            if (chkboxRead.IsChecked.Value)
+            {
+                SimManager.DoFileReads = true;
+            }
+            else
+            {
+                SimManager.DoFileReads = false;
+            }
+
+            // FILE UPDATE
+            if (chkboxWrites.IsChecked.Value)
+            {
+                SimManager.DoFileWrites = true;
+            }
+            else
+            {
+                SimManager.DoFileWrites = false;
+            }
+
+
+            // FILE RENAME
+            if (chkboxRenames.IsChecked.Value)
+            {
+                SimManager.DoFileRenames = true;
+            }
+            else
+            {
+                SimManager.DoFileRenames = false;
+            }
+
+            //FILE CREATE
+            if (chkboxCreates.IsChecked.Value)
+            {
+                SimManager.DoFileCreates = true;
+            }
+            else
+            {
+                SimManager.DoFileCreates = false;
+            }
+
+            //FILE DELETE
+            if (chkboxDeletes.IsChecked.Value)
+            {
+                SimManager.DoFileDeletes = true;
+            }
+            else
+            {
+                SimManager.DoFileDeletes = false;
+            }
+
+            // FILE THREATS
+            if (chkboxRansomwareThreat.IsChecked.Value)
+            {
+                SimManager.DoRansomwareThreat = true;
+            }
+            else
+            {
+                SimManager.DoRansomwareThreat = false;
+            }
+
+        }
+
     }
 
 

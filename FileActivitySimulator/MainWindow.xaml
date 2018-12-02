@@ -5,11 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileActivitySimulator"
         mc:Ignorable="d"
-        Title="Berg Studios Activity Simulator" Height="668.6" Width="670">
+        Title="Berg Studios Activity Simulator" Height="600" Width="720" Initialized="Window_Initialized">
     <Grid Margin="0,0,0,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="67*"/>
+            <ColumnDefinition Width="595*"/>
+        </Grid.ColumnDefinitions>
 
-        <TabControl HorizontalAlignment="Left" Height="191" Margin="10,10,0,0" VerticalAlignment="Top" Width="642">
-            <TabItem Header="File Config" RenderTransformOrigin="0.5,0.5">
+        <TabControl HorizontalAlignment="Left" Height="191" Margin="10,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" >
+
+
+            <TabItem Header="Configuration" RenderTransformOrigin="0.5,0.5" TabIndex="0">
                 <TabItem.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -34,7 +40,46 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="User Settings">
+
+
+
+
+            <TabItem Header="File Activity" TabIndex="5">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="109*"/>
+                        <ColumnDefinition Width="527*"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Name="chkboxRead" Content="Reads" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top" Click="chkBoxEval"/>
+                    <CheckBox Name="chkboxWrites" Content="Writes" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top" Click="chkBoxEval"/>
+                    <CheckBox Name="chkboxDeletes" Content="Delete" HorizontalAlignment="Left" Margin="49,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" Grid.Column="1" />
+                    <CheckBox Name="chkboxCreates" Content="Create" HorizontalAlignment="Left" Margin="49,58,0,0" VerticalAlignment="Top" Click="chkBoxEval" Grid.Column="1"/>
+                    <CheckBox Name="chkboxRenames" Content="Rename" HorizontalAlignment="Left" Margin="157,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" Grid.Column="1"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="File Threats" TabIndex="10">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox Name="chkboxRansomwareThreat" Content="Ransomware" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Active Directory Activity" TabIndex="15">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox Name="chkboxADAuth" Content="Authentications" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                    <CheckBox Name="chkboxADUpdates" Content="Updates" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                    <CheckBox Name="chkboxADCreates" Content="Creates" HorizontalAlignment="Left" Margin="169,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Active Directory Threats" TabIndex="25">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox Name="chkboxMimikatzGoldenTicketThreat" Content="Golden Ticket" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                    <CheckBox x:Name="chkboxMimikatDCSyncThreat" Content="DCSync" HorizontalAlignment="Left" Margin="27,52,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="User Settings"  TabIndex="30">
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="dgUsers" HorizontalAlignment="Left" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="0,0,0,35" Width="636">
                         <DataGrid.Columns>
@@ -48,7 +93,8 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Domain Settings">
+
+            <TabItem Header="Domain Settings" Visibility="Hidden" TabIndex="99">
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="dgDomains" HorizontalAlignment="Left" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="0,0,0,35" Width="636">
                         <DataGrid.Columns>
@@ -61,49 +107,23 @@
                 </Grid>
             </TabItem>
 
-        </TabControl>
-
-        <TabControl HorizontalAlignment="Left" Height="115" Margin="10,206,0,0" VerticalAlignment="Top" Width="642">
-            <TabItem Header="File Activity">
-                <Grid Background="#FFE5E5E5">
-                    <CheckBox Name="chkboxRead" Content="Reads" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top" Click="chkboxRead_Click"/>
-                    <CheckBox Name="chkboxWrites" Content="Writes" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top" Click="chkboxWrites_Click"/>
-                    <CheckBox Name="chkboxDeletes" Content="Delete" HorizontalAlignment="Left" Margin="158,28,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Name="chkboxCreates" Content="Create" HorizontalAlignment="Left" Margin="158,58,0,0" VerticalAlignment="Top" Click="chkboxCreates_Click"/>
-                    <CheckBox Name="chkboxRenames" Content="Rename" HorizontalAlignment="Left" Margin="266,28,0,0" VerticalAlignment="Top" Click="chkboxRenames_Click"/>
-                </Grid>
-
-            </TabItem>
-            <TabItem Header="File Threats">
-                <Grid Background="#FFE5E5E5">
-                    <CheckBox Name="chkboxRansomwareThreat" Content="Ransomware" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top"/>
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="Active Directory Activity">
-                <Grid Background="#FFE5E5E5">
-                    <CheckBox Name="chkboxADAuth" Content="Auth" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top" Click="chkboxRead_Click"/>
-                    <CheckBox Name="chkboxADUpdates" Content="Updates" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top" Click="chkboxWrites_Click"/>
-                    <CheckBox Name="chkboxADCreates" Content="Creates" HorizontalAlignment="Left" Margin="158,28,0,0" VerticalAlignment="Top"/>
-                </Grid>
-
-            </TabItem>
-            <TabItem Header="Active Directory Threats">
-                <Grid Background="#FFE5E5E5">
-                    <CheckBox Name="chkboxMimikatzGoldenTicketThreat" Content="Golden Ticket" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="chkboxMimikatDCSyncThreat" Content="DCSync" HorizontalAlignment="Left" Margin="27,52,0,0" VerticalAlignment="Top"/>
-                </Grid>
-            </TabItem>
 
         </TabControl>
 
-        <Label Content="Activity Level" HorizontalAlignment="Left" Margin="10,326,0,0" VerticalAlignment="Top"/>
-        <Slider Name="sliderActivityLevel" HorizontalAlignment="Left" Margin="10,352,0,0" VerticalAlignment="Top" Width="557" Height="23" ValueChanged="sliderActivityLevel_ValueChanged"/>
-        <Label Name="lblActivityslider" Content="Minimal" HorizontalAlignment="Left" Margin="572,349,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.558" Width="80"/>
+        <!--
+        <TabControl HorizontalAlignment="Left" Height="115" Margin="10,206,0,0" VerticalAlignment="Top" Width="642" Grid.ColumnSpan="2">
+            
 
-        <Button Name ="btnStartSimulation" Content="GO" HorizontalAlignment="Left" Margin="10,383,0,0" VerticalAlignment="Top" Width="642" Height="44" Click="btnStartSimulation_Click"/>
+        </TabControl>
+        -->
 
-        <ScrollViewer Name="Scroller" Margin="10,446,10,10" Background="Black">
+        <Label Content="Activity Level" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Slider Name="sliderActivityLevel" HorizontalAlignment="Left" Margin="10,235,0,0" VerticalAlignment="Top" Width="606" Height="23" ValueChanged="sliderActivityLevel_ValueChanged" Grid.ColumnSpan="2"/>
+        <Label Name="lblActivityslider" Content="Minimal" HorizontalAlignment="Left" Margin="549,232,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.558" Width="80" Grid.Column="1"/>
+
+        <Button Name ="btnStartSimulation" Content="GO" HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top" Width="691" Height="44" Click="btnStartSimulation_Click" Grid.ColumnSpan="2"/>
+
+        <ScrollViewer Name="Scroller" Margin="10,315,10,10" Background="Black" Grid.ColumnSpan="2">
             <StackPanel>
                 <ItemsControl ItemsSource="{Binding ConsoleOutput, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
