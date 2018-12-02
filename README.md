@@ -15,7 +15,7 @@ A simple utility to generate real File and Active Directory activity in lab envi
 4. Specify Domain Users to Impersonate the activity as on the "User Settings" Tab
 5. Set frequency of events with the "Activty Level" slider
 5. Click Start
-6. Utlity will then begin the activity specifced by your selections. with  make chagnes to files / folders specified in step 1 and 2 so be careful!
+6. Utlity will then begin the activity specified by your selections. Changes will be made to the files / folders specified in step 1 and 2 so be careful!
 7. This will just run forever until you stop it!
 
 ## Requires
