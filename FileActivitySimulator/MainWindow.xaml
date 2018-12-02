@@ -51,23 +51,23 @@
 
             <TabItem Header="File Threats" TabIndex="10">
                 <Grid Background="#FFE5E5E5">
-                    <CheckBox Name="chkboxRansomwareThreat" Content="Ransomware" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                    <CheckBox Name="chkboxRansomwareThreat" Content="Ransomware" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" IsEnabled="False" />
                 </Grid>
             </TabItem>
 
             <TabItem Header="Active Directory Activity" TabIndex="15">
                 <Grid Background="#FFE5E5E5">
-                    <CheckBox Name="chkboxADAuth" Content="Authentications" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
-                    <CheckBox Name="chkboxADUpdates" Content="Updates" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
-                    <CheckBox Name="chkboxADCreates" Content="Creates" HorizontalAlignment="Left" Margin="169,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                    <CheckBox Name="chkboxADAuth" Content="Authentications" HorizontalAlignment="Left" Margin="37,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" IsEnabled="False" />
+                    <CheckBox Name="chkboxADUpdates" Content="Updates" HorizontalAlignment="Left" Margin="37,58,0,0" VerticalAlignment="Top" Click="chkBoxEval" IsEnabled="False" />
+                    <CheckBox Name="chkboxADCreates" Content="Creates" HorizontalAlignment="Left" Margin="169,28,0,0" VerticalAlignment="Top" Click="chkBoxEval" IsEnabled="False" />
                 </Grid>
 
             </TabItem>
 
             <TabItem Header="Active Directory Threats" TabIndex="25">
                 <Grid Background="#FFE5E5E5">
-                    <CheckBox Name="chkboxMimikatzGoldenTicketThreat" Content="Golden Ticket" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
-                    <CheckBox x:Name="chkboxMimikatDCSyncThreat" Content="DCSync" HorizontalAlignment="Left" Margin="27,52,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
+                    <CheckBox Name="chkboxMimikatzGoldenTicketThreat" Content="Golden Ticket" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" IsEnabled="False" />
+                    <CheckBox x:Name="chkboxMimikatDCSyncThreat" Content="DCSync" HorizontalAlignment="Left" Margin="27,52,0,0" VerticalAlignment="Top" Click="chkBoxEval" IsEnabled="False" />
                 </Grid>
             </TabItem>
 

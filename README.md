@@ -25,6 +25,7 @@ A simple utility to generate real File and Active Directory activity in lab envi
 ## Todo 
 + Clean up sloppy WPF
 + Implement "Threats" - "Ransomware Simulation / Risky Behaviour
++ Implement Active Directory Activity
 + Make the Account management more robust
 
 
