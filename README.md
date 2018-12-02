@@ -1,6 +1,6 @@
 Activity Simulator
 ==================
-A Simple Utility to Generate real file and Active Directory activity in lab environments for the purposes of monitoring changes.
+A simple utility to generate real File and Active Directory activity in lab environments for the purposes of monitoring changes and detecting "threats".
 
 ![](./img/intro.png)
 
@@ -20,10 +20,11 @@ A Simple Utility to Generate real file and Active Directory activity in lab envi
 
 ## Requires
 + .NET Framework 4.7.2
-+ For domain user impersonation - you must run from inside domain.
++ For domain user impersonation - you will likely need to run the application from a domain joined machine.
 
 ## Todo 
 + Clean up sloppy WPF
-+ "Threats" - "Ransomware Simulation / Risky Behaviour
++ Implement "Threats" - "Ransomware Simulation / Risky Behaviour
 + Make the Account management more robust
+
 
