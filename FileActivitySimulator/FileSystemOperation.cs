@@ -344,5 +344,63 @@ namespace FileActivitySimulator
         }
 
 
+        public void simulateRansomware(string path)
+        {
+
+            bool fileExists = File.Exists(path);
+
+            //If File Exists add some numbers to the extension
+
+            if (fileExists)
+            {
+                // Get Current Extension...
+                string currentFileExtension = path.Substring(path.Length - 4);
+
+                // Get New End Of File
+                string fileTimeStamp = DateTime.Now.ToString("yyyyMMddTHHmmss");
+
+                // Set New Path for File Create
+                path = (path).Replace(currentFileExtension, (fileTimeStamp + currentFileExtension));
+
+            }
+
+            Console.WriteLine("Attempting to Create File: " + path);
+
+            if (OperationCredential != null)
+            {
+
+                var credentials = new UserCredentials(OperationCredential.Domain, OperationCredential.UserName, OperationCredential.Password);
+
+
+                var result = Impersonation.RunAsUser(credentials, LogonType.Interactive, () =>
+                {
+                    // do whatever you want as this user.
+                    System.IO.File.Create(path);
+
+                    return "OK";
+
+                });
+            }
+            else
+            {
+                // do whatever you want as this user.
+                if (fileExists)
+                {
+                    try
+                    {
+                        System.IO.File.Create(path);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+
+
+
+            }
+        }
+
+
     }
 }

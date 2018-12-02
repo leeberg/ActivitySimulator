@@ -5,25 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileActivitySimulator"
         mc:Ignorable="d"
-        Title="Berg Studios Activity Simulator" Height="600" Width="720" Initialized="Window_Initialized">
-    <Grid Margin="0,0,0,2">
+        Title="Berg Activity Simulator" Height="600" Width="720" Initialized="Window_Initialized" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="67*"/>
-            <ColumnDefinition Width="595*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="213*"/>
         </Grid.ColumnDefinitions>
 
-        <TabControl HorizontalAlignment="Left" Height="191" Margin="10,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" >
+        <TabControl HorizontalAlignment="Left" Height="200" Width="712" Margin="0,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
 
 
             <TabItem Header="Configuration" RenderTransformOrigin="0.5,0.5" TabIndex="0">
-                <TabItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="0.445"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TabItem.RenderTransform>
+
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Activity Parent Folder" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top"/>
                     <TextBox Name="txtboxParentActivityFolder" HorizontalAlignment="Left" Height="23" Margin="10,39,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="432"/>
@@ -41,9 +34,6 @@
             </TabItem>
 
 
-
-
-
             <TabItem Header="File Activity" TabIndex="5">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -58,6 +48,7 @@
                 </Grid>
 
             </TabItem>
+
             <TabItem Header="File Threats" TabIndex="10">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox Name="chkboxRansomwareThreat" Content="Ransomware" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
@@ -72,6 +63,7 @@
                 </Grid>
 
             </TabItem>
+
             <TabItem Header="Active Directory Threats" TabIndex="25">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox Name="chkboxMimikatzGoldenTicketThreat" Content="Golden Ticket" HorizontalAlignment="Left" Margin="27,23,0,0" VerticalAlignment="Top" Click="chkBoxEval" />
@@ -81,18 +73,17 @@
 
             <TabItem Header="User Settings"  TabIndex="30">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dgUsers" HorizontalAlignment="Left" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="0,0,0,35" Width="636">
+                    <DataGrid x:Name="dgUsers" HorizontalAlignment="Left" ItemsSource="{Binding}" AutoGenerateColumns="False" Margin="0,0,0,35" Width="706" Background="White">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="UserName" Binding="{Binding userName}" IsReadOnly="True" Width="200" />
                             <DataGridTextColumn Header="Domain" Binding="{Binding userDomain}" IsReadOnly="True" Width="200"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Name="AddUser" Content="Add" HorizontalAlignment="Left" Margin="0,133,0,0" VerticalAlignment="Top" Width="75" Click="AddUser_Click"/>
-                    <Button Name="btnModifyUser" Content="Edit" HorizontalAlignment="Left" Margin="80,133,0,0" VerticalAlignment="Top" Width="75" Click="btnModifyUser_Click"/>
-                    <Button Name="btnDeleteUser" Content="Delete" HorizontalAlignment="Left" Margin="160,133,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteUser_Click"/>
+                    <Button Name="AddUser" Content="Add" HorizontalAlignment="Left" Margin="0,142,0,0" VerticalAlignment="Top" Width="100" Click="AddUser_Click" RenderTransformOrigin="0.48,1.1"/>
+                    <Button Name="btnModifyUser" Content="Edit" HorizontalAlignment="Left" Margin="105,142,0,0" VerticalAlignment="Top" Width="100" Click="btnModifyUser_Click"/>
+                    <Button Name="btnDeleteUser" Content="Delete" HorizontalAlignment="Left" Margin="210,142,0,0" VerticalAlignment="Top" Width="100" Click="btnDeleteUser_Click"/>
                 </Grid>
             </TabItem>
-
 
             <TabItem Header="Domain Settings" Visibility="Hidden" TabIndex="99">
                 <Grid Background="#FFE5E5E5">
@@ -117,11 +108,11 @@
         </TabControl>
         -->
 
-        <Label Content="Activity Level" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <Slider Name="sliderActivityLevel" HorizontalAlignment="Left" Margin="10,235,0,0" VerticalAlignment="Top" Width="606" Height="23" ValueChanged="sliderActivityLevel_ValueChanged" Grid.ColumnSpan="2"/>
-        <Label Name="lblActivityslider" Content="Minimal" HorizontalAlignment="Left" Margin="549,232,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.558" Width="80" Grid.Column="1"/>
+        <Label Content="Activity Level" HorizontalAlignment="Left" Margin="10,205,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Slider Name="sliderActivityLevel" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" Width="600" Height="25" ValueChanged="sliderActivityLevel_ValueChanged" Grid.ColumnSpan="2"/>
+        <Label Name="lblActivityslider" Content="Minimal" HorizontalAlignment="Left" Margin="546,229,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.558" Width="93" Grid.Column="1"/>
 
-        <Button Name ="btnStartSimulation" Content="GO" HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top" Width="691" Height="44" Click="btnStartSimulation_Click" Grid.ColumnSpan="2"/>
+        <Button Name ="btnStartSimulation" Content="GO" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="684" Height="45" Click="btnStartSimulation_Click" Grid.ColumnSpan="2"/>
 
         <ScrollViewer Name="Scroller" Margin="10,315,10,10" Background="Black" Grid.ColumnSpan="2">
             <StackPanel>
