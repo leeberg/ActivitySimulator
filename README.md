@@ -19,7 +19,7 @@ A simple utility to generate real File and Active Directory activity in lab envi
 7. This will just run forever until you stop it!
 
 ## Requires
-+ .NET Framework 4.7.2
++ [https://dotnet.microsoft.com/download/thank-you/net472-offline](.NET Framework 4.7.2)
 + For domain user impersonation - you will likely need to run the application from a domain joined machine.
 
 ## Todo 
