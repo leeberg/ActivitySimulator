@@ -1,6 +1,6 @@
 Activity Simulator
 ==================
-A simple utility to generate real File and Active Directory activity in lab environments for the purposes of monitoring changes and detecting "threats".
+A simple utility to generate real File and Active Directory activity for multiple user accounts in lab environments for the purposes of monitoring changes and detecting "threats".
 
 ![](./img/intro.png)
 
