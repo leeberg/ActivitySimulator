@@ -27,5 +27,7 @@ A simple utility to generate real File and Active Directory activity for multipl
 + Implement "Threats" - "Ransomware Simulation / Risky Behaviour
 + Implement Active Directory Activity
 + Make the Account management more robust
++ Implement Better Account Management Performance
+
 
 
