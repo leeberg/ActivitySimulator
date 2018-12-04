@@ -250,7 +250,7 @@ namespace FileActivitySimulator
                     var result = Impersonation.RunAsUser(credentials, LogonType.Interactive, () =>
                     {
                             // do whatever you want as this user.
-                            System.IO.File.OpenRead(path);
+                            System.IO.File.ReadAllBytes(path);
 
                         return "OK";
 
@@ -272,7 +272,7 @@ namespace FileActivitySimulator
 
                 try
                 {
-                    System.IO.File.OpenRead(path);
+                    System.IO.File.ReadAllBytes(path);
                 }
                 catch (Exception e)
                 {
